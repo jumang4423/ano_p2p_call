@@ -1,4 +1,5 @@
 import {systemMeta} from "../funcs/meta";
+import bk from './bk.png'
 import React from "react";
 
 const Header = () => {
@@ -12,11 +13,11 @@ const Header = () => {
         alignItems: "center",
         justifyContent: "center",
       }}>
-        <img src={"/bk.png"} style={{
+        <img src={bk} style={{
           width: "75%",
           marginTop: "-32px",
           filter: "brightness(0.8)",
-        }}/>
+        }} alt={""}/>
       </div>
 
 

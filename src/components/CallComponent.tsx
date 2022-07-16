@@ -2,6 +2,7 @@ import React, {useEffect} from "react";
 import Peer from "peerjs";
 import ReactLoading from "react-loading";
 import {Set_friend_stream_to} from "./CallComponent_func";
+import calling from "./calling.png";
 
 type Props = {
   p2p_key_img_hash: string,
@@ -50,10 +51,10 @@ const CallComponent: React.FC<Props> = ({
             flexDirection: "column",
             marginBottom: "32px",
           }}>
-              <img src={"/calling.png"} style={{
+              <img src={calling} style={{
                 width: "130%",
                 filter: "brightness(0.8)",
-              }}/>
+              }} alt={""}/>
               <div style={{
                 color: 'gray',
                 display: "flex",
