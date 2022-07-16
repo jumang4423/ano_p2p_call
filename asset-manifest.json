@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/ano_p2p_call/static/css/main.d554973a.css",
+    "main.js": "/ano_p2p_call/static/js/main.e3ba92e0.js",
+    "index.html": "/ano_p2p_call/index.html",
+    "main.d554973a.css.map": "/ano_p2p_call/static/css/main.d554973a.css.map",
+    "main.e3ba92e0.js.map": "/ano_p2p_call/static/js/main.e3ba92e0.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d554973a.css",
+    "static/js/main.e3ba92e0.js"
+  ]
+}
