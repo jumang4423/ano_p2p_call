@@ -56,7 +56,6 @@ const CallComponent: React.FC<Props> = ({
 
   return (
     <div>
-
       {
         !isSessionStarted &&
           <div style={{
@@ -87,19 +86,14 @@ const CallComponent: React.FC<Props> = ({
               </div>
           </div>
       }
+      <div style={{
+        position: 'relative',
+        width: '100%',
+        height: '0',
 
-
-      {/*  play friend audio stream here*/}
-      {isSessionStarted && (
-        <div style={{
-          position: 'relative',
-          width: '100%',
-          height: '0',
-
-        }}>
-          <video playsInline autoPlay muted={false} id="friend_audio_stream"/>
-        </div>
-      )}
+      }}>
+        <video playsInline autoPlay muted={false} id="friend_audio_stream"/>
+      </div>
 
     </div>
   )
