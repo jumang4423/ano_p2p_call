@@ -27,16 +27,17 @@ const CallComponent: React.FC<Props> = ({
   useEffect(() => {
     // take blue, call to the id
     if (which_pill === pill_enum.blue) {
-      console.log("calling to: ", p2p_key_img_hash, "from random id")
-      const peerObj = new Peer("", { debug: 3 })
-      let call = peerObj.call(p2p_key_img_hash, UserAudioStream)
-      call.on('stream', function (remoteStream) {
-        Set_friend_stream_to("friend_audio_stream", FriendAudioStream, remoteStream)
-        setIsSessionStarted(true)
-      });
+      const peerObj = new Peer("", {debug: 3})
+      peerObj.on('open', (id) => {
+        console.log('My peer ID is: ' + id)
+        let call = peerObj.call(p2p_key_img_hash, UserAudioStream)
+        call.on('stream', function (remoteStream) {
+          Set_friend_stream_to("friend_audio_stream", FriendAudioStream, remoteStream)
+          setIsSessionStarted(true)
+        });
+      })
       peerRef.current = peerObj
     } else {
-      console.log("waiting for call, i am", p2p_key_img_hash)
       const peerObj = new Peer(p2p_key_img_hash, {debug: 3})
       peerObj.on('open', (_) => {
         peerObj.on('call', function (call) {
@@ -96,7 +97,7 @@ const CallComponent: React.FC<Props> = ({
           height: '0',
 
         }}>
-          <video playsInline autoPlay id="friend_audio_stream"/>
+          <video playsInline autoPlay muted={false} id="friend_audio_stream"/>
         </div>
       )}
 
