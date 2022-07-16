@@ -1,5 +1,4 @@
 import {systemMeta} from "../funcs/meta";
-import bk from './bk.png'
 import React from "react";
 
 const Header = () => {

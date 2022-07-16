@@ -3,6 +3,7 @@ import Peer from "peerjs";
 import ReactLoading from "react-loading";
 import {Set_friend_stream_to} from "./CallComponent_func";
 import calling from "./calling.png";
+import {pill_enum} from "../App";
 
 type Props = {
   p2p_key_img_hash: string,
@@ -10,6 +11,7 @@ type Props = {
   FriendAudioStream: React.MutableRefObject<MediaStream | undefined>,
   isSessionStarted: boolean,
   setIsSessionStarted: React.Dispatch<React.SetStateAction<boolean>>,
+  which_pill: pill_enum
 }
 
 const CallComponent: React.FC<Props> = ({
@@ -17,25 +19,32 @@ const CallComponent: React.FC<Props> = ({
                                           UserAudioStream,
                                           FriendAudioStream,
                                           isSessionStarted,
-                                          setIsSessionStarted
+                                          setIsSessionStarted,
+                                          which_pill
                                         }) => {
   const peerRef = React.useRef<Peer | undefined>(undefined)
 
   useEffect(() => {
-    peerRef.current = new Peer()
-    const call = peerRef.current.call(p2p_key_img_hash, UserAudioStream);
-    call.on('stream', function (remoteStream) {
-      Set_friend_stream_to("friend_audio_stream", FriendAudioStream, remoteStream)
-      setIsSessionStarted(true)
-    });
-
-    peerRef.current.on('call', function (call) {
-      call.answer(UserAudioStream);
-      call.on('stream', function (remoteStream) {
+    // take blue, call to the id
+    if (which_pill === pill_enum.blue) {
+      const peerObj = new Peer()
+      peerObj.call(p2p_key_img_hash, UserAudioStream).on('stream', function (remoteStream) {
         Set_friend_stream_to("friend_audio_stream", FriendAudioStream, remoteStream)
         setIsSessionStarted(true)
       });
-    });
+      peerRef.current = peerObj
+    } else {
+      const peerObj = new Peer(p2p_key_img_hash)
+      peerObj.on('call', function (call) {
+        call.answer(UserAudioStream);
+        call.on('stream', function (remoteStream) {
+          Set_friend_stream_to("friend_audio_stream", FriendAudioStream, remoteStream)
+          setIsSessionStarted(true)
+        });
+      });
+      peerRef.current = peerObj
+    }
+
 
   }, [])
 
@@ -68,7 +77,7 @@ const CallComponent: React.FC<Props> = ({
                   }}>
                       <ReactLoading type={"spinningBubbles"} color={"gray"} height={18} width={18}/>
                   </div>
-                  <div>waiting for peer call. please wait...</div>
+                  <div>waiting for peer call! please wait...</div>
               </div>
           </div>
       }
