@@ -4,6 +4,7 @@ import Logger from "./components/Logger";
 import ImgHashUi from "./components/ImgHashUi";
 import {gen_cur_log, get_audioStream} from "./App_fun";
 import CallComponent from "./components/CallComponent";
+import JumangoRecursion from "./components/JumangoRecursion";
 
 export enum His_enum {
   info,
@@ -55,11 +56,14 @@ function App() {
         {
           p2p_key_img_hash
             ? <CallComponent p2p_key_img_hash={p2p_key_img_hash} UserAudioStream={UserAudioStream.current!}
-                             FriendAudioStream={FriendAudioStream} isSessionStarted={isSessionStarted} setIsSessionStarted={setIsSessionStarted}/>
+                             FriendAudioStream={FriendAudioStream} isSessionStarted={isSessionStarted}
+                             setIsSessionStarted={setIsSessionStarted}/>
             : <ImgHashUi setP2PKeyImgHash={setP2PKeyImgHash}/>
         }
 
         <Logger history={view_state.logs}/>
+
+        <JumangoRecursion/>
       </div>
     </div>
   );

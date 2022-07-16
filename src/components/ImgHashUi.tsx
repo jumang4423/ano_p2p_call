@@ -24,6 +24,7 @@ const ImgHashUi: React.FC<Props> = ({setP2PKeyImgHash}) => {
         let hash = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(contents));
         hash = hash.toString(CryptoJS.enc.Hex);
         setP2PKeyImgHash(hash)
+        console.log(hash)
       }
 
       reader.readAsText(dist_file)

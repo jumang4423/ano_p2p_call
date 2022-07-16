@@ -37,7 +37,7 @@ const CallComponent: React.FC<Props> = ({
       });
     });
 
-  })
+  }, [])
 
   return (
     <div>
@@ -75,7 +75,7 @@ const CallComponent: React.FC<Props> = ({
 
 
       {/*  play friend audio stream here*/}
-      {FriendAudioStream && (
+      {isSessionStarted && (
         <div style={{
           position: 'relative',
           width: '100%',
