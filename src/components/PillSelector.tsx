@@ -23,7 +23,7 @@ const PillSelector: React.FC<Props> = ({set_which_pill}) => {
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        margin: "16px"
+        margin: "8px"
       }}>
         <div style={{
           margin: "8px",
@@ -32,16 +32,16 @@ const PillSelector: React.FC<Props> = ({set_which_pill}) => {
           alignItems: "center",
           cursor: "pointer",
         }}>
-          <img src={blue} width={"40%"} alt={"red pill"} onClick={() => set_which_pill(pill_enum.red)}/>
+          <img src={blue} width={"45%"} alt={"red pill"} onClick={() => set_which_pill(pill_enum.red)}/>
         </div>
         <div style={{
-          margin: "8px",
+          margin: "8px 0 0 0px",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
           cursor: "pointer"
         }}>
-          <img src={red} width={"35%"} alt={"blue pill"} onClick={() => {
+          <img src={red} width={"38%"} alt={"blue pill"} onClick={() => {
             set_which_pill(pill_enum.blue)
           }}/>
         </div>
@@ -56,10 +56,9 @@ const PillSelector: React.FC<Props> = ({set_which_pill}) => {
           alignItems: "center",
           color: "white",
           flexDirection: "column",
-          fontSize: "24px",
+          fontSize: "18px",
         }}>
-          <div>click your pill</div>
-          <div>{"<-"} left or right {"->"}</div>
+          <div>peace flower or psyche flower?</div>
         </div>
 
       </div>

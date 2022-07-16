@@ -6,6 +6,7 @@ import {gen_cur_log, get_audioStream} from "./App_fun";
 import CallComponent from "./components/CallComponent";
 import JumangoRecursion from "./components/JumangoRecursion";
 import PillSelector from "./components/PillSelector";
+import Help from "./components/Help";
 
 export enum His_enum {
   info,
@@ -94,6 +95,8 @@ function App() {
                            setIsSessionStarted={setIsSessionStarted} which_pill={which_pill!}/>
         }
         <Logger history={view_state.logs}/>
+
+        <Help/>
 
         <JumangoRecursion/>
       </div>

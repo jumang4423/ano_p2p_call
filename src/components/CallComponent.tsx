@@ -28,8 +28,7 @@ const CallComponent: React.FC<Props> = ({
     // take blue, call to the id
     if (which_pill === pill_enum.blue) {
       const peerObj = new Peer("", {debug: 3})
-      peerObj.on('open', (id) => {
-        console.log('My peer ID is: ' + id)
+      peerObj.on('open', (_) => {
         let call = peerObj.call(p2p_key_img_hash, UserAudioStream)
         call.on('stream', function (remoteStream) {
           Set_friend_stream_to("friend_audio_stream", FriendAudioStream, remoteStream)
@@ -50,8 +49,6 @@ const CallComponent: React.FC<Props> = ({
       })
       peerRef.current = peerObj
     }
-
-
   }, [])
 
   return (
@@ -64,28 +61,59 @@ const CallComponent: React.FC<Props> = ({
             justifyContent: "center",
             flexDirection: "column",
             marginBottom: "32px",
+            marginTop: "16px",
           }}>
-              <img src={calling} style={{
-                width: "130%",
-                filter: "brightness(0.8)",
-              }} alt={""}/>
               <div style={{
-                color: 'gray',
+                color: 'white',
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
-                fontSize: "18px",
+                fontSize: "20px",
+                marginTop: "16px",
               }}>
                   <div style={{
                     marginRight: "8px",
                   }}>
                       <ReactLoading type={"spinningBubbles"} color={"gray"} height={18} width={18}/>
                   </div>
-                  <div>waiting for peer call! please wait...</div>
+                  <div>flower trying to call! please wait...</div>
               </div>
           </div>
       }
+
+      {
+        isSessionStarted &&
+          <div style={{
+            margin: "32px 0",
+            width: "100%",
+            height: "128px",
+            backgroundColor: "#000",
+            border: "1px solid green",
+          }}>
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "column",
+                marginBottom: "32px",
+                backgroundColor: "#111",
+              }}>
+                  <div style={{
+                    color: 'white',
+                    fontSize: "24px",
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "128px",
+                  }}>
+                      📞 you can speak now
+                  </div>
+              </div>
+          </div>
+      }
+
       <div style={{
         position: 'relative',
         width: '100%',

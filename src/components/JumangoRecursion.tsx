@@ -1,4 +1,3 @@
-import bk from "./bk.png";
 import React from "react";
 import {systemMeta} from "../funcs/meta";
 
@@ -8,7 +7,7 @@ const JumangoRecursion = () => {
       position: 'absolute',
       left: '0',
       width: '100%',
-      height: '10%',
+      height: '5%',
       bottom: '0',
 
     }}>
