@@ -6,6 +6,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import {useEffect} from "react";
+import err from "./err.mp3";
+import useSound from "use-sound";
+import on_start_call from "../on_start_call.mp3";
 
 type Props = {
   set_modal_state: React.Dispatch<React.SetStateAction<model_enum | undefined>>
@@ -22,6 +25,14 @@ const ErrorModal: React.FC<Props> = ({
                                        modal_state,
                                        set_modal_state
                                      }) => {
+  const [errp] = useSound(err, {volume: 1.0});
+
+  useEffect(() => {
+    if (modal_state === model_enum.connection_expired_sadly) {
+      errp()
+    }
+  }, [modal_state])
+
 
   return (
     <div style={{
