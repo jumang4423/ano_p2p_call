@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import Peer from "peerjs";
 import ReactLoading from "react-loading";
 import {Set_friend_stream_to} from "./CallComponent_func";
-import {pill_enum} from "../App";
+import {model_enum, page_status_type, pill_enum} from "../App";
 import calling from "./calling.jpg"
 
 type Props = {
@@ -11,7 +11,10 @@ type Props = {
   FriendAudioStream: React.MutableRefObject<MediaStream | undefined>,
   isSessionStarted: boolean,
   setIsSessionStarted: React.Dispatch<React.SetStateAction<boolean>>,
-  which_pill: pill_enum
+  which_pill: pill_enum,
+  set_which_pill:  React.Dispatch<React.SetStateAction<pill_enum | undefined>>,
+  set_cur_page_stat: React.Dispatch<React.SetStateAction<page_status_type>>,
+  set_modal_state: React.Dispatch<React.SetStateAction<model_enum | undefined>>,
 }
 
 const CallComponent: React.FC<Props> = ({
@@ -20,11 +23,27 @@ const CallComponent: React.FC<Props> = ({
                                           FriendAudioStream,
                                           isSessionStarted,
                                           setIsSessionStarted,
-                                          which_pill
+                                          which_pill,
+                                          set_which_pill,
+                                          set_cur_page_stat,
+                                          set_modal_state
                                         }) => {
   const peerRef = React.useRef<Peer | undefined>(undefined)
 
   useEffect(() => {
+    // TODO: too crap
+    let cur_time = 0
+    const id = setInterval(() => {
+      cur_time += 1
+      if (cur_time > 10) {
+        // back to pill selection
+        set_which_pill(undefined)
+        set_cur_page_stat(page_status_type.select_pills)
+        set_modal_state(model_enum.connection_expired_sadly)
+      }
+    }, 1000)
+
+
     // take blue, call to the id
     if (which_pill === pill_enum.blue) {
       const peerObj = new Peer("", {debug: 3})
@@ -33,6 +52,7 @@ const CallComponent: React.FC<Props> = ({
         call.on('stream', function (remoteStream) {
           Set_friend_stream_to("friend_audio_stream", FriendAudioStream, remoteStream)
           setIsSessionStarted(true)
+          clearInterval(id)
         });
       })
       peerRef.current = peerObj
@@ -44,11 +64,21 @@ const CallComponent: React.FC<Props> = ({
           call.on('stream', function (remoteStream) {
             Set_friend_stream_to("friend_audio_stream", FriendAudioStream, remoteStream)
             setIsSessionStarted(true)
+            clearInterval(id)
           });
         });
       })
       peerRef.current = peerObj
     }
+
+    return () => {
+      cur_time = 0
+      clearInterval(id)
+      if (peerRef.current !== undefined) {
+        peerRef.current.destroy()
+      }
+    }
+
   }, [])
 
   return (

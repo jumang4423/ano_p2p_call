@@ -11,6 +11,7 @@ import useSound from "use-sound";
 
 // sfx
 import on_start_call from './on_start_call.mp3';
+import ErrorModal from "./components/ErrorModal";
 
 export enum His_enum {
   info,
@@ -30,6 +31,11 @@ export enum pill_enum {
   blue,
 }
 
+// TODO: now just display expired modal, so implement a generic modal
+export enum model_enum {
+  connection_expired_sadly = "connection_expired_sadly",
+}
+
 
 export type Log_type = {
   message: string,
@@ -46,6 +52,9 @@ function App() {
   const [isLocalAudioEnabled, setIsLocalAudioEnabled] = React.useState<boolean>(false)
   const UserAudioStream = React.useRef<MediaStream | undefined>(undefined)
   const FriendAudioStream = React.useRef<MediaStream | undefined>(undefined)
+
+  // modals
+  const [modal_state, set_modal_state] = React.useState<model_enum | undefined>(undefined)
 
   // music player
   const [on_start_call_p] = useSound(on_start_call, {volume: 0.5});
@@ -107,13 +116,16 @@ function App() {
           cur_page_stat === page_status_type.trying_to_connect &&
             <CallComponent p2p_key_img_hash={p2p_key_img_hash ?? ""} UserAudioStream={UserAudioStream.current!}
                            FriendAudioStream={FriendAudioStream} isSessionStarted={isSessionStarted}
-                           setIsSessionStarted={setIsSessionStarted} which_pill={which_pill!}/>
+                           setIsSessionStarted={setIsSessionStarted} which_pill={which_pill!}
+                           set_which_pill={set_which_pill} set_cur_page_stat={set_cur_page_stat}
+                           set_modal_state={set_modal_state}/>
         }
         <Logger history={view_state.logs}/>
-
         <Help/>
-
         <JumangoRecursion/>
+
+        <ErrorModal set_modal_state={set_modal_state} modal_state={modal_state}/>
+
 
         <div style={{
           margin: "256px",
