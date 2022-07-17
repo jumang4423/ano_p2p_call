@@ -8,12 +8,14 @@ const Header = () => {
     }}>
       <div style={{
         color: 'green',
-        fontSize: '24px',
+        fontSize: '26px',
+        backgroundColor: '#335',
       }}> {systemMeta.name} :: {systemMeta.desc}</div>
 
       <div style={{
         color: 'gray',
         fontSize: '18px',
+
       }}> version :: {systemMeta.version}</div>
     </div>
   )

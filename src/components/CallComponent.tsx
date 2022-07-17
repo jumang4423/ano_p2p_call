@@ -2,8 +2,8 @@ import React, {useEffect} from "react";
 import Peer from "peerjs";
 import ReactLoading from "react-loading";
 import {Set_friend_stream_to} from "./CallComponent_func";
-import calling from "./calling.png";
 import {pill_enum} from "../App";
+import calling from "./calling.jpg"
 
 type Props = {
   p2p_key_img_hash: string,
@@ -77,7 +77,9 @@ const CallComponent: React.FC<Props> = ({
                   }}>
                       <ReactLoading type={"spinningBubbles"} color={"gray"} height={18} width={18}/>
                   </div>
-                  <div>flower trying to call! please wait...</div>
+                  <div>
+                      trying to connect to peer, please wait...
+                  </div>
               </div>
           </div>
       }
@@ -87,30 +89,17 @@ const CallComponent: React.FC<Props> = ({
           <div style={{
             margin: "32px 0",
             width: "100%",
-            height: "128px",
-            backgroundColor: "#000",
+            height: "200px",
             border: "1px solid green",
           }}>
-              <div style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column",
-                marginBottom: "32px",
-                backgroundColor: "#111",
-              }}>
-                  <div style={{
-                    color: 'white',
-                    fontSize: "24px",
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "128px",
-                  }}>
-                      📞 you can speak now
-                  </div>
-              </div>
+              <img
+                  src={calling}
+                  width={"99%"}
+                  height={"90%"}
+                  alt={"calling"}
+                  style={{
+                    borderRadius: "8px",
+                  }}/>
           </div>
       }
 

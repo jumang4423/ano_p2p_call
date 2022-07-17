@@ -7,6 +7,10 @@ import CallComponent from "./components/CallComponent";
 import JumangoRecursion from "./components/JumangoRecursion";
 import PillSelector from "./components/PillSelector";
 import Help from "./components/Help";
+import useSound from "use-sound";
+
+// sfx
+import on_start_call from './on_start_call.mp3';
 
 export enum His_enum {
   info,
@@ -40,9 +44,11 @@ function App() {
   const [p2p_key_img_hash, setP2PKeyImgHash] = React.useState<string | undefined>(undefined)
   const [isSessionStarted, setIsSessionStarted] = React.useState<boolean>(false)
   const [isLocalAudioEnabled, setIsLocalAudioEnabled] = React.useState<boolean>(false)
-
   const UserAudioStream = React.useRef<MediaStream | undefined>(undefined)
   const FriendAudioStream = React.useRef<MediaStream | undefined>(undefined)
+
+  // music player
+  const [on_start_call_p] = useSound(on_start_call, {volume: 0.5});
 
   // view state
   const view_state = {
@@ -71,13 +77,22 @@ function App() {
     }, [which_pill])
   }
 
+  // for sound control
+  {
+    useEffect(() => {
+      if (isSessionStarted) {
+        on_start_call_p();
+      }
+    }, [isSessionStarted])
+  }
+
   return (
     <div style={{
       maxWidth: '960px',
       margin: '0 auto',
     }}>
       <div style={{
-        margin: '32px 0 32px 0',
+        margin: '32px 16px 32px 16px',
       }}>
         <Header/>
         {
@@ -99,6 +114,10 @@ function App() {
         <Help/>
 
         <JumangoRecursion/>
+
+        <div style={{
+          margin: "256px",
+        }}/>
       </div>
     </div>
   );

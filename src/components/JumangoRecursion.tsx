@@ -4,12 +4,12 @@ import {systemMeta} from "../funcs/meta";
 const JumangoRecursion = () => {
   return (
     <div style={{
-      position: 'absolute',
+      position: 'fixed',
       left: '0',
       width: '100%',
-      height: '5%',
+      height: '10%',
       bottom: '0',
-
+      zIndex: '99999',
     }}>
 
       <div style={{
@@ -20,6 +20,7 @@ const JumangoRecursion = () => {
       }}>
         <div style={{
           color: 'gray',
+          backgroundColor: '#000',
         }}>
           by {systemMeta.developer} |
           <a

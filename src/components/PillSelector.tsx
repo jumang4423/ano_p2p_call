@@ -14,16 +14,31 @@ const PillSelector: React.FC<Props> = ({set_which_pill}) => {
     <div style={{
       margin: "32px 0",
       width: "100%",
-      height: "256px",
+      height: "300px",
       backgroundColor: "#000",
       border: "1px solid gray",
     }}>
+      <div style={{
+        marginTop: "32px",
+      }}>
+        <div style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          color: "white",
+          flexDirection: "column",
+          fontSize: "22px",
+        }}>
+          <div>💊 peace flower or psyche flower?</div>
+        </div>
+
+      </div>
       <div style={{
         display: "flex",
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        margin: "8px"
+        margin: "8px",
       }}>
         <div style={{
           margin: "8px",
@@ -46,23 +61,6 @@ const PillSelector: React.FC<Props> = ({set_which_pill}) => {
           }}/>
         </div>
       </div>
-
-      <div style={{
-        marginTop: "-128px",
-      }}>
-        <div style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          color: "white",
-          flexDirection: "column",
-          fontSize: "18px",
-        }}>
-          <div>peace flower or psyche flower?</div>
-        </div>
-
-      </div>
-
     </div>
   )
 }

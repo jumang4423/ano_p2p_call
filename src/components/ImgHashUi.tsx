@@ -38,7 +38,7 @@ const ImgHashUi: React.FC<Props> = ({setP2PKeyImgHash}) => {
       width: "100%",
       height: "256px",
       backgroundColor: "#111",
-      border: "1px solid gray",
+      border: "2px dotted gray",
     }}
          {...getRootProps()}
     >
