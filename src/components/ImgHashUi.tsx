@@ -2,6 +2,7 @@
 import CryptoJS from 'crypto-js';
 import {useCallback} from "react";
 import {useDropzone} from "react-dropzone";
+import {get_img_arr_convoluted} from "./ImgHashUi_func";
 
 type Props = {
   setP2PKeyImgHash: React.Dispatch<React.SetStateAction<string | undefined>>,
@@ -18,15 +19,26 @@ const ImgHashUi: React.FC<Props> = ({setP2PKeyImgHash}) => {
     }
 
     if (dist_file) {
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        const contents = e.target?.result as string
-        let hash = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(contents));
-        hash = hash.toString(CryptoJS.enc.Hex);
-        setP2PKeyImgHash(hash)
-      }
+      // load the image file then get pixel data
+      const img = new Image()
+      img.width = 64
+      img.height = 64
+      img.onload = () => {
+        const canvas = document.createElement('canvas')
+        const ctx = canvas.getContext('2d')
+        if (ctx) {
+          canvas.width = img.width
+          canvas.height = img.height
+          ctx.drawImage(img, 0, 0)
+          const img_data = ctx.getImageData(0, 0, img.width, img.height)
 
-      reader.readAsText(dist_file)
+          // get the hash of the image
+          const hash = CryptoJS.SHA256(get_img_arr_convoluted(img_data.data).toString()).toString()
+          setP2PKeyImgHash(hash)
+        }
+      }
+      img.src = URL.createObjectURL(dist_file)
+
     }
   }, []);
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
