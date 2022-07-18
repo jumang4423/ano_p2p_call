@@ -1,9 +1,11 @@
 import React, {useEffect} from "react";
-import Peer from "peerjs";
+import Peer, {DataConnection} from "peerjs";
 import ReactLoading from "react-loading";
-import {Set_friend_stream_to} from "./CallComponent_func";
+import {con_msg, id_gen, Set_friend_stream_to} from "./CallComponent_func";
 import {model_enum, page_status_type, pill_enum} from "../App";
 import calling from "./calling.jpg"
+import Messager from "./Messanger";
+import Button from '@mui/material/Button';
 
 type Props = {
   p2p_key_img_hash: string,
@@ -12,9 +14,17 @@ type Props = {
   isSessionStarted: boolean,
   setIsSessionStarted: React.Dispatch<React.SetStateAction<boolean>>,
   which_pill: pill_enum,
-  set_which_pill:  React.Dispatch<React.SetStateAction<pill_enum | undefined>>,
+  set_which_pill: React.Dispatch<React.SetStateAction<pill_enum | undefined>>,
   set_cur_page_stat: React.Dispatch<React.SetStateAction<page_status_type>>,
   set_modal_state: React.Dispatch<React.SetStateAction<model_enum | undefined>>,
+}
+
+export type message_type = {
+  id: string,
+  sender: pill_enum,
+  message: string,
+  lifetime_const: number,
+  lifetime_state: number,
 }
 
 const CallComponent: React.FC<Props> = ({
@@ -29,6 +39,9 @@ const CallComponent: React.FC<Props> = ({
                                           set_modal_state
                                         }) => {
   const peerRef = React.useRef<Peer | undefined>(undefined)
+  // message
+  const msg_connectionRef = React.useRef<DataConnection | undefined>(undefined)
+  const messages = React.useRef<Array<message_type>>([])
 
   useEffect(() => {
     // TODO: too crap
@@ -46,19 +59,28 @@ const CallComponent: React.FC<Props> = ({
 
     // take blue, call to the id
     if (which_pill === pill_enum.blue) {
-      const peerObj = new Peer("", {debug: 3})
+      const peerObj = new Peer(id_gen(p2p_key_img_hash, pill_enum.blue), {debug: 3})
       peerObj.on('open', (_) => {
-        let call = peerObj.call(p2p_key_img_hash, UserAudioStream)
+        // for call
+        let call = peerObj.call(id_gen(p2p_key_img_hash, pill_enum.red), UserAudioStream)
         call.on('stream', function (remoteStream) {
           Set_friend_stream_to("friend_audio_stream", FriendAudioStream, remoteStream)
           setIsSessionStarted(true)
           clearInterval(id)
         });
+        // for message
+        con_msg(
+          id_gen(p2p_key_img_hash, pill_enum.red),
+          msg_connectionRef,
+          peerObj,
+          messages,
+        )
       })
       peerRef.current = peerObj
     } else {
-      const peerObj = new Peer(p2p_key_img_hash, {debug: 3})
+      const peerObj = new Peer(id_gen(p2p_key_img_hash, which_pill), {debug: 3})
       peerObj.on('open', (_) => {
+        // for call
         peerObj.on('call', function (call) {
           call.answer(UserAudioStream);
           call.on('stream', function (remoteStream) {
@@ -67,13 +89,38 @@ const CallComponent: React.FC<Props> = ({
             clearInterval(id)
           });
         });
+        // for message
+        con_msg(
+          id_gen(p2p_key_img_hash, pill_enum.blue),
+          msg_connectionRef,
+          peerObj,
+          messages,
+        )
       })
       peerRef.current = peerObj
     }
 
+    let cur_con_num: number | undefined = undefined
+    const connection_checker = setInterval(() => {
+      if (peerRef.current !== undefined) {
+        // friends peer id
+        const friend_id = id_gen(p2p_key_img_hash, which_pill === pill_enum.blue ? pill_enum.red : pill_enum.blue)
+        const all_connections = peerRef.current.connections as any
+        if (cur_con_num === undefined) {
+          cur_con_num = all_connections[friend_id].length
+        } else {
+          const new_con_num = all_connections[friend_id].length
+          if (new_con_num !== cur_con_num && new_con_num === 1) {
+            set_modal_state(model_enum.connection_established)
+          }
+        }
+      }
+    }, 1000)
+
     return () => {
       cur_time = 0
       clearInterval(id)
+      clearInterval(connection_checker)
       if (peerRef.current !== undefined) {
         peerRef.current.destroy()
       }
@@ -119,17 +166,42 @@ const CallComponent: React.FC<Props> = ({
           <div style={{
             margin: "32px 0",
             width: "100%",
-            height: "200px",
             border: "1px solid green",
           }}>
-              <img
-                  src={calling}
-                  width={"99%"}
-                  height={"90%"}
-                  alt={"calling"}
-                  style={{
-                    borderRadius: "8px",
-                  }}/>
+              <div style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: "16px",
+              }}>
+                  <img
+                      src={calling}
+                      width={"70%"}
+                      height={"70%"}
+                      alt={"calling"}
+                      style={{
+                        borderRadius: "8px",
+                      }}/>
+              </div>
+
+              <Messager messages={messages} which_pill={which_pill}
+                        con={msg_connectionRef.current!}/>
+              <div style={{
+                display: "flex",
+                flexDirection: "row",
+                marginBottom: "16px",
+                marginLeft: "32px",
+              }}>
+                  <Button
+                      variant="outlined"
+                      color="error"
+                      onClick={() => {
+                        window.location.reload()
+                      }}>
+                      Disconnect
+                  </Button>
+              </div>
           </div>
       }
 
@@ -139,7 +211,7 @@ const CallComponent: React.FC<Props> = ({
         height: '0',
 
       }}>
-        <video playsInline autoPlay muted={false} id="friend_audio_stream"/>
+        <video playsInline autoPlay muted={false} id="friend_audio_stream" hidden/>
       </div>
 
     </div>
