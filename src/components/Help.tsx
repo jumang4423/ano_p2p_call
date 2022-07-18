@@ -39,7 +39,7 @@ const JapaneseHelpContent = () => {
   return (
     <Typography>
       <p style={{fontSize: "24px"}}># {systemMeta.name}</p>
-      <div>セキュアでシンプルなp3p電話アプリ</div>
+      <div>セキュアでシンプルなp2p電話アプリ</div>
       <p style={{fontSize: "24px"}}>## 使い方</p>
       <div>1. 話したい人と共通の画像を決めて本サイトにアップロード (画像はハッシュ化されるので鍵の役割をします)</div>
       <div>2. '平和お花' もしくは 'サイケお花' のどちらかを選ぶ🌸</div>
