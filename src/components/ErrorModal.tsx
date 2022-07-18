@@ -94,7 +94,7 @@ const ErrorModal: React.FC<Props> = ({
           }
 
           {
-            modal_state === model_enum.connection_established &&
+            modal_state === model_enum.peer_disconnected &&
               <ConnectionEstablished/>
           }
 
