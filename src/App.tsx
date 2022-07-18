@@ -34,7 +34,7 @@ export enum pill_enum {
 // TODO: now just display expired modal, so implement a generic modal
 export enum model_enum {
   connection_expired_sadly = "connection_expired_sadly",
-  connection_established = "connection_established",
+  peer_disconnected = "peer_disconnected",
 }
 
 

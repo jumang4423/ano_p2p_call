@@ -44,7 +44,7 @@ const ConnectionEstablished = () => {
   return (
     <div>
       <DialogTitle id="alert-dialog-title">
-        {"✈️connection established"}
+        {"✈️another peer disconnected"}
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">

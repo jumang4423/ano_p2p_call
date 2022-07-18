@@ -114,7 +114,7 @@ const CallComponent: React.FC<Props> = ({
         } else {
           const new_con_num = all_connections[friend_id].length
           if (new_con_num !== cur_con_num && new_con_num === 1) {
-            set_modal_state(model_enum.connection_established)
+            set_modal_state(model_enum.peer_disconnected)
           }
         }
       }
