@@ -6,6 +6,8 @@ import {model_enum, page_status_type, pill_enum} from "../App";
 import calling from "./calling.jpg"
 import Messager from "./Messanger";
 import Button from '@mui/material/Button';
+import useSound from "use-sound";
+import on_message from "./on_message.mp3";
 
 type Props = {
   p2p_key_img_hash: string,
@@ -44,6 +46,7 @@ const CallComponent: React.FC<Props> = ({
   const messages = React.useRef<Array<message_type>>([])
 
   useEffect(() => {
+
     // TODO: too crap
     let cur_time = 0
     const id = setInterval(() => {
@@ -73,7 +76,7 @@ const CallComponent: React.FC<Props> = ({
           id_gen(p2p_key_img_hash, pill_enum.red),
           msg_connectionRef,
           peerObj,
-          messages,
+          messages
         )
       })
       peerRef.current = peerObj
@@ -94,7 +97,7 @@ const CallComponent: React.FC<Props> = ({
           id_gen(p2p_key_img_hash, pill_enum.blue),
           msg_connectionRef,
           peerObj,
-          messages,
+          messages
         )
       })
       peerRef.current = peerObj

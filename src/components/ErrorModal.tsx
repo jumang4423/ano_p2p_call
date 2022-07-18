@@ -66,7 +66,7 @@ const ErrorModal: React.FC<Props> = ({
                                        modal_state,
                                        set_modal_state
                                      }) => {
-  const [errp] = useSound(err, {volume: 1.5});
+  const [errp] = useSound(err, {volume: 1.2});
 
   useEffect(() => {
     if (modal_state === model_enum.connection_expired_sadly) {

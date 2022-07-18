@@ -2,6 +2,7 @@ import React from "react";
 import {pill_enum} from "../App";
 import Peer, {DataConnection} from "peerjs";
 import {message_type} from "./CallComponent";
+import {PlayFunction} from "use-sound/dist/types";
 
 export const Set_friend_stream_to = (elementId: string, FriendAudioStreamBox: React.MutableRefObject<MediaStream | undefined>, remoteStream: MediaStream): void => {
   FriendAudioStreamBox.current = remoteStream;

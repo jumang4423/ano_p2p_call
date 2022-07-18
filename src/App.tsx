@@ -58,7 +58,7 @@ function App() {
   const [modal_state, set_modal_state] = React.useState<model_enum | undefined>(undefined)
 
   // music player
-  const [on_start_call_p] = useSound(on_start_call, {volume: 0.5});
+  const [on_start_call_p] = useSound(on_start_call, {volume: 0.3});
 
   // view state
   const view_state = {
